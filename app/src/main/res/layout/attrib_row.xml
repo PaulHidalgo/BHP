@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_border">
+
+    <TextView
+        android:id="@+id/txt_date"
+        android:layout_weight="1"
+        android:background="@drawable/bg_border"
+        android:gravity="center"
+        android:text="Fecha" />
+
+    <TextView
+        android:id="@+id/txt_ci"
+        android:layout_weight="1"
+        android:background="@drawable/bg_border"
+        android:gravity="center"
+        android:text="Cédula" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_weight="1"
+        android:background="@drawable/bg_border"
+        android:gravity="center"
+        android:text="Nombre" />
+
+    <TextView
+        android:id="@+id/txt_state"
+        android:layout_weight="1"
+        android:background="@drawable/bg_border"
+        android:gravity="center"
+        android:text="Estado" />
+
+    <TextView
+        android:id="@+id/txt_hour"
+        android:layout_weight="1"
+        android:background="@drawable/bg_border"
+        android:gravity="center"
+        android:text="Hora" />
+</TableRow>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin_large">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:text="@string/presentation_2_1"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_2"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_3"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_4"
+            android:textColor="@color/colorSecondary" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_5"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="@string/presentation_2_6"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_7"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_8"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_9"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+            android:drawableLeft="@drawable/ic_dot"
+            android:drawablePadding="@dimen/activity_horizontal_margin_small"
+            android:text="@string/presentation_2_10"
+            android:textColor="@color/colorSecondary" />
+    </LinearLayout>
+</ScrollView>
