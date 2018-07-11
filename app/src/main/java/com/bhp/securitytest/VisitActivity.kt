@@ -1,11 +1,13 @@
 package com.bhp.securitytest
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.DatePicker
 import android.widget.TableRow
 import android.widget.TextView
 import com.bhp.securitytest.db.UserDatabase
@@ -13,20 +15,25 @@ import com.bhp.securitytest.db.UserRegisterDao
 import kotlinx.android.synthetic.main.activity_visit.*
 import java.util.*
 
-class VisitActivity : BaseActivity() {
+class VisitActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
 
     private var mTask: GetDataTask? = null
-    private var data = null;
+    private var datePicker: DatePickerDialog? = null
+    private var date: Calendar? = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visit)
+        datePicker = DatePickerDialog(this, R.style.DialogTheme, this, date!!.get(Calendar.YEAR), date!!.get(Calendar.MONTH), date!!.get(Calendar.DAY_OF_MONTH))
+        datePicker!!.datePicker.minDate = date!!.timeInMillis
 
         query_button.setOnClickListener {
             attemptQuery()
+//            datePicker!!.show()
         }
 
     }
+
 
     fun attemptQuery() {
         if (mTask != null) {
@@ -115,6 +122,12 @@ class VisitActivity : BaseActivity() {
         } else {
             table_progress.visibility = View.GONE
         }
+    }
+
+    override fun onDateSet(v: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        date!!.set(Calendar.YEAR, year)
+        date!!.set(Calendar.MONTH, month)
+        date!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
 
 }

@@ -119,4 +119,8 @@
     <!-- Strings related to visits-->
     <string name="visitors">Visitantes</string>
 
+    <!-- Options after Login -->
+    <string name="courses">Cursos</string>
+    <string name="label_io">Entrada/Salida</string>
+
 </resources>
