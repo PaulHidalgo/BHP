@@ -12,13 +12,36 @@ import java.util.*
 @Dao
 interface UserRegisterDao {
 
-    @Query("Select ur.date as dateUser, user.id as userId, user.name as userName, ur.hour as hourUser, register.description as descState " +
+    @Query("Select ur.date as dateUser, user.idType,user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
             "from user_register as ur " +
             "INNER JOIN user ON user.id = ur.user_id " +
             "INNER JOIN register ON register.id = ur.register_id " +
             "WHERE register.state = :state " +
-            "AND dateUser BETWEEN :from AND :to")
+            "AND dateUser BETWEEN :from AND :to " +
+            "ORDER BY dateUser")
     fun getUsersRegisterByState(state: String, from: Date, to: Date): List<UserRegisterQuery>
+
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+            "from user_register as ur " +
+            "INNER JOIN user ON user.id = ur.user_id " +
+            "INNER JOIN register ON register.id = ur.register_id " +
+            "WHERE dateUser BETWEEN :from AND :to " +
+            "ORDER BY dateUser")
+    fun getAllUsersRegister(from: Date, to: Date): List<UserRegisterQuery>
+
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+            "from user_register as ur " +
+            "INNER JOIN user ON user.id = ur.user_id " +
+            "INNER JOIN register ON register.id = ur.register_id " +
+            "ORDER BY dateUser")
+    fun getAllUsersRegister(): List<UserRegisterQuery>
+
+    @Query("SELECT COUNT(*) FROM user_register AS ur " +
+            "INNER JOIN user ON user.id = ur.user_id " +
+            "INNER JOIN register ON register.id = ur.register_id " +
+            "WHERE ur.user_id = :id " +
+            "AND ur.date = :date")
+    fun getCountUserDay(id: String, date: Date): Int
 
 //    @Query("SELECT * FROM user_register AS ur " +
 //            "INNER JOIN user ON user.id = ur.user_id " +
@@ -27,29 +50,36 @@ interface UserRegisterDao {
 //            "AND ur.date = :date")
 //    fun getUserRegisterByStateDate(state: String, date: String): List<UserRegister>
 
+    //Duda --> El mismo día puede tener un ingreso y salida dos veces
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(userRegister: UserRegister)
 
     class UserRegisterQuery() : Parcelable {
         var dateUser: Date? = null
+        var idType: String = ""
         var userId: String = ""
         var userName: String = ""
+        var userLastName: String = ""
         var hourUser: DateTime? = null
         var descState = ""
 
         constructor(parcel: Parcel) : this() {
             dateUser = Date(parcel.readLong())
+            idType = parcel.readString()
             userId = parcel.readString()
             userName = parcel.readString()
+            userLastName = parcel.readString()
             hourUser = DateTime(parcel.readLong())
             descState = parcel.readString()
         }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeLong(dateUser!!.time)
+            parcel.writeString(idType)
             parcel.writeString(userId)
             parcel.writeString(userName)
+            parcel.writeString(userLastName)
             parcel.writeLong(hourUser!!.millis)
             parcel.writeString(descState)
         }
@@ -69,7 +99,7 @@ interface UserRegisterDao {
         }
 
         override fun toString(): String {
-            return "UserRegisterQuery(dateUser='$dateUser', userId='$userId', userName='$userName', hourUser='$hourUser', descState='$descState')"
+            return "UserRegisterQuery(dateUser='$dateUser', userId='$userId', userName='$userName',userLastName='$userLastName', hourUser='$hourUser', descState='$descState')"
         }
     }
 }

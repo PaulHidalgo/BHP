@@ -17,7 +17,7 @@ import com.bhp.securitytest.Utils
 import com.bhp.securitytest.db.User
 import com.bhp.securitytest.db.UserDatabase
 import kotlinx.android.synthetic.main.activity_presentation.*
-import org.joda.time.DateTime
+import java.util.*
 
 class PresentationActivity : BaseActivity(), PresentationActivityFragment.QuestionsCallback {
     override fun onFail() {
@@ -153,7 +153,7 @@ class PresentationActivity : BaseActivity(), PresentationActivityFragment.Questi
         override fun doInBackground(vararg params: Void): Boolean? {
             user.q1 = q1
             user.q2 = q2
-            user.date = DateTime.now().millis
+            user.date = Date().time
             user.success = questionsOk
             db.userDao().update(user)
             return true

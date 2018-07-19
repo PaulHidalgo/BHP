@@ -13,7 +13,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.bhp.securitytest.db.User
 import com.bhp.securitytest.db.UserDatabase
-import com.bhp.securitytest.presentation.PresentationActivity
+import com.bhp.securitytest.db.UserRegister
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -156,9 +156,9 @@ class LoginActivity : BaseActivity() {
                 id.requestFocus()
             } else {
                 if (user.id == "1792739942") {
-                    startActivity(DashboardActivity.intent(this@LoginActivity))
+                    startActivity(OptionActivity.intent(this@LoginActivity, null))
                 } else {
-                    startActivity(PresentationActivity.intent(this@LoginActivity, user))
+                    startActivity(OptionActivity.intent(this@LoginActivity, user))
                 }
                 finish()
             }

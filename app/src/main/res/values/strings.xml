@@ -118,9 +118,14 @@
 
     <!-- Strings related to visits-->
     <string name="visitors">Visitantes</string>
+    <string name="template_name">%1$s %2$s</string>
+    <string name="register_exit">Se ha registrado la salida de manera exitosa.</string>
+    <string name="error_register_exit">Ya ha registrado su salida.</string>
+    <string name="register_entry">Se ha registrado su entrada de manera exitosa.</string>
+    <string name="message_register_exit">¿Está seguro que desea registrar su salida?</string>
 
     <!-- Options after Login -->
     <string name="courses">Cursos</string>
-    <string name="label_io">Entrada/Salida</string>
+    <string name="label_exit">Salida</string>
 
 </resources>

@@ -9,6 +9,7 @@ import android.view.View
 import com.bhp.securitytest.db.Register
 import com.bhp.securitytest.db.User
 import com.bhp.securitytest.db.UserDatabase
+import com.bhp.securitytest.enums.VisitTable
 import kotlinx.android.synthetic.main.activity_initial.*
 
 class InitialActivity : AppCompatActivity(), View.OnClickListener {
@@ -19,7 +20,7 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.sign_in_button -> startActivity(Intent(this@InitialActivity, LoginActivity::class.java))
             R.id.register_button -> startActivity(Intent(this@InitialActivity, RegisterActivity::class.java))
-            R.id.visit_button -> startActivity(Intent(this@InitialActivity, VisitActivity::class.java))
+            R.id.visit_button -> startActivity(VisitActivity.intent(this@InitialActivity, VisitTable.USER))
         }
     }
 
