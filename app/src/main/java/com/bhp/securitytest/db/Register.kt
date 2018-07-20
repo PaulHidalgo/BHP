@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity
 import android.os.Parcel
 import android.os.Parcelable
 
-@Entity(tableName = "register", primaryKeys = arrayOf("id"))
+@Entity(tableName = "register", primaryKeys = ["id"])
 
 class Register(
         var id: Long = 0,

@@ -9,13 +9,13 @@ import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.DatePicker
 import android.widget.TableRow
 import android.widget.TextView
 import com.bhp.securitytest.Utils.formatDefaultDate
@@ -36,14 +36,18 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.util.*
 
-class VisitActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
+class VisitActivity : BaseActivity(), View.OnClickListener {
 
     private var mTask: GetDataTask? = null
     private var mExportTask: VisitActivity.ExportTask? = null
+    private lateinit var textFrom: TextInputEditText
+    private lateinit var textTo: TextInputEditText
 
     var data: List<UserRegisterDao.UserRegisterQuery>? = null
-    private var datePicker: DatePickerDialog? = null
-    private var date: Calendar? = Calendar.getInstance()
+    private var datePickerFrom: DatePickerDialog? = null
+    private var datePickerTo: DatePickerDialog? = null
+    private var dateFrom: Calendar? = Calendar.getInstance()
+    private var dateTo: Calendar? = Calendar.getInstance()
     private lateinit var chooser: StorageChooser
     private lateinit var opt: VisitTable
     private lateinit var path: String
@@ -66,20 +70,21 @@ class VisitActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visit)
 
-        datePicker = DatePickerDialog(this, R.style.DialogTheme, this, date!!.get(Calendar.YEAR), date!!.get(Calendar.MONTH), date!!.get(Calendar.DAY_OF_MONTH))
-        datePicker!!.datePicker.minDate = date!!.timeInMillis
+        datePickerFrom = DatePickerDialog(this, R.style.DialogTheme, listenerFrom, dateFrom!!.get(Calendar.YEAR), dateFrom!!.get(Calendar.MONTH), dateFrom!!.get(Calendar.DAY_OF_MONTH))
+        datePickerFrom!!.datePicker.maxDate = Calendar.getInstance().timeInMillis
+
+        datePickerTo = DatePickerDialog(this, R.style.DialogTheme, listenerTo, dateTo!!.get(Calendar.YEAR), dateTo!!.get(Calendar.MONTH), dateTo!!.get(Calendar.DAY_OF_MONTH))
+        datePickerTo!!.datePicker.maxDate = Calendar.getInstance().timeInMillis
+
 
         if (intent.extras != null) {
             opt = intent.getSerializableExtra(EXTRA_OPT) as VisitTable
         }
 
         if (opt == VisitTable.USER) {
+            ll_filter.visibility = View.GONE
             query_button.visibility = View.GONE
             attemptQuery()
-        }
-        query_button.setOnClickListener {
-            attemptQuery()
-            //datePicker!!.show()
         }
 
         chooser = StorageChooser.Builder()
@@ -97,6 +102,12 @@ class VisitActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
             }
         }
 
+        textFrom = date_from
+        textTo = date_to
+
+        date_from.setOnClickListener(this)
+        date_to.setOnClickListener(this)
+        query_button.setOnClickListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -195,10 +206,36 @@ class VisitActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    override fun onDateSet(v: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        date!!.set(Calendar.YEAR, year)
-        date!!.set(Calendar.MONTH, month)
-        date!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.query_button -> {
+                attemptQuery()
+            }
+            R.id.date_from -> datePickerFrom!!.show()
+            R.id.date_to -> datePickerTo!!.show()
+        }
+    }
+
+    private val listenerFrom = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        textTo.setText("")
+        datePickerTo = DatePickerDialog(this, R.style.DialogTheme, listenerTo, dateTo!!.get(Calendar.YEAR), dateTo!!.get(Calendar.MONTH), dateTo!!.get(Calendar.DAY_OF_MONTH))
+        datePickerTo!!.datePicker.maxDate = Calendar.getInstance().timeInMillis
+
+        dateFrom!!.set(Calendar.YEAR, year)
+        dateFrom!!.set(Calendar.MONTH, month)
+        dateFrom!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        textFrom.setText(DateTimeFormat.forPattern(Utils.formatDefaultDate).print(dateFrom!!.timeInMillis))
+        datePickerTo!!.datePicker.minDate = dateFrom!!.timeInMillis
+        textTo.isEnabled = true
+    }
+
+    private val listenerTo = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        dateTo!!.set(Calendar.YEAR, year)
+        dateTo!!.set(Calendar.MONTH, month)
+        dateTo!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        textTo.setText(DateTimeFormat.forPattern(Utils.formatDefaultDate).print(dateTo!!.timeInMillis))
     }
 
     /**
@@ -217,7 +254,7 @@ class VisitActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
             when (opt) {
 
                 VisitTable.ADMIN -> {
-                    //TODO Apply filters date
+                    //TODO Apply filters dateFrom
                     data = db.userRegisterDao().getAllUsersRegister()
                 }
                 VisitTable.USER -> data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))

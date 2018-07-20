@@ -5,7 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 //@Entity(tableName = "user", primaryKeys = arrayOf("id", "email"))
-@Entity(tableName = "user", primaryKeys = arrayOf("id"))
+@Entity(tableName = "user", primaryKeys = ["id"])
 class User(
         var id: String = "",
         var idType: String = "C",

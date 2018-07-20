@@ -41,7 +41,12 @@
         <activity
             android:name=".VisitActivity"
             android:label="@string/visitors" />
-        <activity android:name=".OptionActivity"></activity>
+        <activity android:name=".OptionActivity" />
+
+        <receiver
+            android:name=".broadcast.AlarmRegisterExit"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

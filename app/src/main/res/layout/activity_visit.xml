@@ -8,6 +8,63 @@
     android:orientation="vertical"
     tools:context=".VisitActivity">
 
+    <LinearLayout
+        android:id="@+id/ll_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_weight="2"
+            tools:ignore="RtlHardcoded">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/date_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="@string/date_from"
+                android:maxLines="1"
+                android:singleLine="true"
+                tools:ignore="Deprecated" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fab_margin"
+            android:layout_weight="2"
+            tools:ignore="RtlHardcoded">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/date_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="@string/date_to"
+                android:maxLines="1"
+                android:singleLine="true"
+                tools:ignore="Deprecated" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/query_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:text="@string/visitors"
+        android:textStyle="bold" />
+
     <ProgressBar
         android:id="@+id/table_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -15,15 +72,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
-    <Button
-        android:id="@+id/query_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/visitors"
-        android:textStyle="bold" />
 
-    <TableLayout
-        android:id="@+id/tbl_visitors"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fab_margin">
+
+        <TableLayout
+            android:id="@+id/tbl_visitors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
 </LinearLayout>

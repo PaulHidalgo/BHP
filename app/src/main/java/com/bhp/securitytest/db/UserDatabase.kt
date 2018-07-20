@@ -9,6 +9,7 @@ import android.arch.persistence.room.migration.Migration
 import android.content.Context
 import com.bhp.securitytest.Converters
 
+//TODO change version database
 @Database(entities = arrayOf(User::class, Register::class, UserRegister::class), version = 2)
 @TypeConverters(Converters::class)
 abstract class UserDatabase : RoomDatabase() {
@@ -25,7 +26,7 @@ abstract class UserDatabase : RoomDatabase() {
                 synchronized(UserDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
                             UserDatabase::class.java, "weather.db")
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3 )
                             .build()
                 }
             }
@@ -40,6 +41,12 @@ abstract class UserDatabase : RoomDatabase() {
     object MIGRATION_1_2 : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE user ADD COLUMN idType TEXT NOT NULL DEFAULT 'C'")
+        }
+    }
+
+    object MIGRATION_2_3 : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+
         }
     }
 }

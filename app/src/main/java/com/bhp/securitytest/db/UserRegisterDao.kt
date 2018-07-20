@@ -21,13 +21,11 @@ interface UserRegisterDao {
             "ORDER BY dateUser")
     fun getUsersRegisterByState(state: String, from: Date, to: Date): List<UserRegisterQuery>
 
-    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+    @Query("Select *  " +
             "from user_register as ur " +
-            "INNER JOIN user ON user.id = ur.user_id " +
-            "INNER JOIN register ON register.id = ur.register_id " +
-            "WHERE dateUser BETWEEN :from AND :to " +
-            "ORDER BY dateUser")
-    fun getAllUsersRegister(from: Date, to: Date): List<UserRegisterQuery>
+            "WHERE ur.date BETWEEN :from AND :to " +
+            "ORDER BY ur.date " )
+    fun getAllUsersRegisterGroupBy(from: Date, to: Date): List<UserRegister>
 
     @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
             "from user_register as ur " +
@@ -42,13 +40,6 @@ interface UserRegisterDao {
             "WHERE ur.user_id = :id " +
             "AND ur.date = :date")
     fun getCountUserDay(id: String, date: Date): Int
-
-//    @Query("SELECT * FROM user_register AS ur " +
-//            "INNER JOIN user ON user.id = ur.user_id " +
-//            "INNER JOIN register ON register.id = ur.register_id " +
-//            "WHERE register.state = :state " +
-//            "AND ur.date = :date")
-//    fun getUserRegisterByStateDate(state: String, date: String): List<UserRegister>
 
     //Duda --> El mismo día puede tener un ingreso y salida dos veces
 

@@ -1,21 +1,28 @@
 package com.bhp.securitytest
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.bhp.securitytest.broadcast.AlarmRegisterExit
 import com.bhp.securitytest.db.Register
 import com.bhp.securitytest.db.User
 import com.bhp.securitytest.db.UserDatabase
 import com.bhp.securitytest.enums.VisitTable
 import kotlinx.android.synthetic.main.activity_initial.*
+import java.util.*
+
 
 class InitialActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mSeedDBTask: SeedDBTask? = null
 
+    @SuppressLint("SimpleDateFormat")
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.sign_in_button -> startActivity(Intent(this@InitialActivity, LoginActivity::class.java))
@@ -33,6 +40,18 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
 
         mSeedDBTask = SeedDBTask()
         mSeedDBTask!!.execute(null as Void?)
+
+        //Alarm for exit automatic
+        val calendar = Calendar.getInstance()
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 30, 0)
+        } else {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                    23, 30, 0)
+        }
+
+        setAlarm(calendar.timeInMillis)
     }
 
     /**
@@ -65,5 +84,19 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         override fun onCancelled() {
             mSeedDBTask = null
         }
+    }
+
+    private fun setAlarm(time: Long) {
+        //getting the alarm manager
+        val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        //creating a new intent specifying the broadcast receiver
+        val i = Intent(this, AlarmRegisterExit::class.java)
+
+        //creating a pending intent using the intent
+        val pi = PendingIntent.getBroadcast(this, 0, i, 0)
+
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi)
     }
 }

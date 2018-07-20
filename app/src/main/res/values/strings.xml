@@ -123,6 +123,8 @@
     <string name="error_register_exit">Ya ha registrado su salida.</string>
     <string name="register_entry">Se ha registrado su entrada de manera exitosa.</string>
     <string name="message_register_exit">¿Está seguro que desea registrar su salida?</string>
+    <string name="date_from">Desde</string>
+    <string name="date_to">Hasta</string>
 
     <!-- Options after Login -->
     <string name="courses">Cursos</string>
