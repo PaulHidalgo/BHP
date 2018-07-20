@@ -1,10 +1,12 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+
+def versionMajor = 1
+def versionMinor = 1
+def versionPatch = 0
+def versionBuild = 0
 
 android {
     signingConfigs {
@@ -20,9 +22,13 @@ android {
         applicationId "com.bhp.securitytest"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode = getVersionCode(versionMajor, versionMinor, versionPatch, versionBuild)
+        versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        applicationVariants.all { variant ->
+            renameAPK(variant, defaultConfig)
+        }
     }
     buildTypes {
         release {
@@ -52,4 +58,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+static def renameAPK(variant, defaultConfig) {
+    variant.outputs.all { output ->
+        outputFileName = "bhp_" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ").apk"
+    }
+}
+
+static def getVersionCode(versionMajor, versionMinor, versionPatch, versionBuild) {
+    return versionMajor * 100000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 }

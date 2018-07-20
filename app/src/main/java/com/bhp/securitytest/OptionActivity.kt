@@ -117,8 +117,10 @@ class OptionActivity : BaseActivity(), View.OnClickListener {
             when (mStateUser) {
                 StateUser.ENTRY -> {
                     if (success!!) {
-                        AlertDialog.Builder(this@OptionActivity).setTitle(R.string.bhp).setMessage(getString(R.string.register_entry))
-                                .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+//                        AlertDialog.Builder(this@OptionActivity).setTitle(R.string.bhp).setMessage(getString(R.string.register_entry))
+//                                .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+                        finish()
+                        startActivity(PresentationActivity.intent(this@OptionActivity, user))
                     }
                 }
 
