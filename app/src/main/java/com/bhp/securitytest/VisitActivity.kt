@@ -39,7 +39,7 @@ import java.util.*
 class VisitActivity : BaseActivity(), View.OnClickListener {
 
     private var mTask: GetDataTask? = null
-    private var mExportTask: VisitActivity.ExportTask? = null
+    private var mExportVisitTask: VisitActivity.ExportTask? = null
     private var textFrom: TextInputEditText? = null
     private var textTo: TextInputEditText? = null
 
@@ -163,13 +163,13 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
             return
         }
 
-        if (mExportTask != null) {
+        if (mExportVisitTask != null) {
             return
         }
         showProgress(true)
 
-        mExportTask = ExportTask()
-        mExportTask!!.execute(null as Void?)
+        mExportVisitTask = ExportTask()
+        mExportVisitTask!!.execute(null as Void?)
     }
 
 
@@ -373,7 +373,7 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
         }
 
         override fun onPostExecute(success: Boolean?) {
-            mExportTask = null
+            mExportVisitTask = null
             showProgress(false)
 
             if (success!!) {
@@ -386,7 +386,7 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
         }
 
         override fun onCancelled() {
-            mExportTask = null
+            mExportVisitTask = null
             showProgress(false)
         }
 
