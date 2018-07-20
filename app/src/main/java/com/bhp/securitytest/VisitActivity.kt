@@ -40,8 +40,8 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
 
     private var mTask: GetDataTask? = null
     private var mExportTask: VisitActivity.ExportTask? = null
-    private lateinit var textFrom: TextInputEditText
-    private lateinit var textTo: TextInputEditText
+    private var textFrom: TextInputEditText? = null
+    private var textTo: TextInputEditText? = null
 
     var data: List<UserRegisterDao.UserRegisterQuery>? = null
     private var datePickerFrom: DatePickerDialog? = null
@@ -81,10 +81,15 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
             opt = intent.getSerializableExtra(EXTRA_OPT) as VisitTable
         }
 
-        if (opt == VisitTable.USER) {
-            ll_filter.visibility = View.GONE
-            query_button.visibility = View.GONE
-            attemptQuery()
+        when (opt) {
+            VisitTable.USER -> {
+                ll_filter.visibility = View.GONE
+                query_button.visibility = View.GONE
+                attemptQuery(Utils.parseDate(Date(2000, 1, 1)), Utils.parseDate(Date(2000, 1, 1)))
+            }
+            VisitTable.ADMIN -> {
+                attemptQuery(Utils.parseDate(Date(2000, 1, 1)), Utils.parseDate(Date(2000, 1, 1)))
+            }
         }
 
         chooser = StorageChooser.Builder()
@@ -142,11 +147,12 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    fun attemptQuery() {
+    private fun attemptQuery(dateTo: Date?, dateFrom: Date?) {
         if (mTask != null) {
             return
         }
-        mTask = GetDataTask()
+
+        mTask = GetDataTask(dateTo!!, dateFrom!!)
         mTask!!.execute(null as Void?)
     }
 
@@ -209,15 +215,21 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.query_button -> {
-                attemptQuery()
+                if (opt == VisitTable.ADMIN && (date_from!!.text.isEmpty() && date_to!!.text.isEmpty())) {
+                    AlertDialog.Builder(this).setTitle(R.string.bhp).setMessage(R.string.verify_filters)
+                            .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+                    return
+                }
+                attemptQuery(Date(dateFrom!!.timeInMillis), Date(dateTo!!.timeInMillis))
             }
+
             R.id.date_from -> datePickerFrom!!.show()
             R.id.date_to -> datePickerTo!!.show()
         }
     }
 
     private val listenerFrom = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-        textTo.setText("")
+        textTo!!.setText("")
         datePickerTo = DatePickerDialog(this, R.style.DialogTheme, listenerTo, dateTo!!.get(Calendar.YEAR), dateTo!!.get(Calendar.MONTH), dateTo!!.get(Calendar.DAY_OF_MONTH))
         datePickerTo!!.datePicker.maxDate = Calendar.getInstance().timeInMillis
 
@@ -225,9 +237,9 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
         dateFrom!!.set(Calendar.MONTH, month)
         dateFrom!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        textFrom.setText(DateTimeFormat.forPattern(Utils.formatDefaultDate).print(dateFrom!!.timeInMillis))
+        textFrom!!.setText(DateTimeFormat.forPattern(Utils.formatDefaultDate).print(dateFrom!!.timeInMillis))
         datePickerTo!!.datePicker.minDate = dateFrom!!.timeInMillis
-        textTo.isEnabled = true
+        textTo!!.isEnabled = true
     }
 
     private val listenerTo = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -235,14 +247,15 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
         dateTo!!.set(Calendar.MONTH, month)
         dateTo!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        textTo.setText(DateTimeFormat.forPattern(Utils.formatDefaultDate).print(dateTo!!.timeInMillis))
+        textTo!!.setText(DateTimeFormat.forPattern(Utils.formatDefaultDate).print(dateTo!!.timeInMillis))
     }
 
     /**
      * Represents an asynchronous get data of visitors
      */
+    @Suppress("SENSELESS_COMPARISON")
     @SuppressLint("StaticFieldLeak")
-    inner class GetDataTask internal constructor() : AsyncTask<Void, Void, Boolean>() {
+    inner class GetDataTask internal constructor(var dateFrom: Date?, var dateTo: Date?) : AsyncTask<Void, Void, Boolean>() {
         var db: UserDatabase = UserDatabase.getInstance(this@VisitActivity)!!
 
         override fun onPreExecute() {
@@ -254,8 +267,12 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
             when (opt) {
 
                 VisitTable.ADMIN -> {
-                    //TODO Apply filters dateFrom
-                    data = db.userRegisterDao().getAllUsersRegister()
+                    if (dateFrom == Utils.parseDate(Date(2000, 1, 1))) {
+                        data = db.userRegisterDao().getAllUsersRegister()
+                    } else {
+                        data = db.userRegisterDao().getAllUsersRegisterFilter(Utils.parseDate(dateFrom!!), Utils.parseDate(dateTo!!))
+                    }
+
                 }
                 VisitTable.USER -> data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))
             }

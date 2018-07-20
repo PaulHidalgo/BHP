@@ -24,7 +24,7 @@ interface UserRegisterDao {
     @Query("Select *  " +
             "from user_register as ur " +
             "WHERE ur.date BETWEEN :from AND :to " +
-            "ORDER BY ur.date " )
+            "ORDER BY ur.date ")
     fun getAllUsersRegisterGroupBy(from: Date, to: Date): List<UserRegister>
 
     @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
@@ -33,6 +33,15 @@ interface UserRegisterDao {
             "INNER JOIN register ON register.id = ur.register_id " +
             "ORDER BY dateUser")
     fun getAllUsersRegister(): List<UserRegisterQuery>
+
+
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+            "from user_register as ur " +
+            "INNER JOIN user ON user.id = ur.user_id " +
+            "INNER JOIN register ON register.id = ur.register_id " +
+            "WHERE ur.date BETWEEN :from AND :to " +
+            "ORDER BY dateUser")
+    fun getAllUsersRegisterFilter(from: Date, to: Date): List<UserRegisterQuery>
 
     @Query("SELECT COUNT(*) FROM user_register AS ur " +
             "INNER JOIN user ON user.id = ur.user_id " +

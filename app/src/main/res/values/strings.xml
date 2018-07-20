@@ -125,6 +125,8 @@
     <string name="message_register_exit">¿Está seguro que desea registrar su salida?</string>
     <string name="date_from">Desde</string>
     <string name="date_to">Hasta</string>
+    <string name="search">Buscar</string>
+    <string name="verify_filters">Escoja el rango de fechas</string>
 
     <!-- Options after Login -->
     <string name="courses">Cursos</string>

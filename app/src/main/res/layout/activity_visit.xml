@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fab_margin"
-        android:text="@string/visitors"
+        android:text="@string/search"
         android:textStyle="bold" />
 
     <ProgressBar
