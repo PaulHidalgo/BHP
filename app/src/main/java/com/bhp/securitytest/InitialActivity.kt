@@ -31,6 +31,7 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initial)
@@ -52,6 +53,12 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         setAlarm(calendar.timeInMillis)
+
+        if (BuildConfig.DEBUG) {
+            version.visibility = View.VISIBLE
+            val versionNumber = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode
+            version.text = (getString(R.string.template_version, versionNumber))
+        }
     }
 
     /**

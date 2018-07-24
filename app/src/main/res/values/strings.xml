@@ -8,6 +8,7 @@
     <string name="no">No</string>
     <string name="finish">Finalizar</string>
     <string name="message_exit">¿Está seguro que desea salir?</string>
+    <string name="template_version">V. %1$d</string>
 
     <!-- Strings related to registration -->
     <string name="register">Registro</string>

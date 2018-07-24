@@ -157,11 +157,11 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun attemptExportData() {
-        if (data!!.isEmpty()) {
-            AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(R.string.error_no_data_fetch)
-                    .setPositiveButton(R.string.accept, null).setCancelable(false).show()
-            return
-        }
+//        if (data!!.isEmpty()) {
+//            AlertDialog.Builder(this).setTitle(R.string.app_name).setMessage(R.string.error_no_data_fetch)
+//                    .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+//            return
+//        }
 
         if (mExportVisitTask != null) {
             return
@@ -344,6 +344,7 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
      */
     inner class ExportTask internal constructor() : AsyncTask<Void, Void, Boolean>() {
         lateinit var file: File
+        var db: UserDatabase = UserDatabase.getInstance(this@VisitActivity)!!
 
 
         override fun doInBackground(vararg params: Void): Boolean? {
@@ -356,11 +357,15 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                 writer = CsvBeanWriter(OutputStreamWriter(FileOutputStream(file), Charsets.ISO_8859_1), CsvPreference.STANDARD_PREFERENCE)
 
                 writer.writeHeader("Fecha", "Tipo Identificación", "ID", "Nombre", "Apellido", "Estado", "Hora")
-                data!!.forEach { userRegisterQuery ->
-                    run {
-                        writer.write(userRegisterQuery,
-                                arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourUser.name),
-                                arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null))
+                data = db.userRegisterDao().getAllUsersRegister()
+
+                if (data!!.isNotEmpty()) {
+                    data!!.forEach { userRegisterQuery ->
+                        run {
+                            writer.write(userRegisterQuery,
+                                    arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourUser.name),
+                                    arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null))
+                        }
                     }
                 }
                 return true
@@ -377,10 +382,15 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
             showProgress(false)
 
             if (success!!) {
-                AlertDialog.Builder(this@VisitActivity).setTitle(R.string.app_name).setMessage(getString(R.string.export_succeeded, file.absolutePath))
-                        .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+                if (data!!.isNotEmpty()) {
+                    AlertDialog.Builder(this@VisitActivity).setTitle(R.string.bhp).setMessage(getString(R.string.export_succeeded, file.absolutePath))
+                            .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+                } else {
+                    AlertDialog.Builder(this@VisitActivity).setTitle(R.string.bhp).setMessage(R.string.error_no_data_fetch)
+                            .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+                }
             } else {
-                AlertDialog.Builder(this@VisitActivity).setTitle(R.string.app_name).setMessage(R.string.export_failed)
+                AlertDialog.Builder(this@VisitActivity).setTitle(R.string.bhp).setMessage(R.string.export_failed)
                         .setPositiveButton(R.string.accept, null).setCancelable(false).show()
             }
         }
