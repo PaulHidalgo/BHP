@@ -356,15 +356,16 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                 }
                 writer = CsvBeanWriter(OutputStreamWriter(FileOutputStream(file), Charsets.ISO_8859_1), CsvPreference.STANDARD_PREFERENCE)
 
-                writer.writeHeader("Fecha", "Tipo Identificación", "ID", "Nombre", "Apellido", "Estado", "Hora")
+                writer.writeHeader("Fecha", "Tipo Identificación", "ID", "Nombre", "Apellido", "Email", "Empresa", "Cargo", "Estado", "Hora")
                 data = db.userRegisterDao().getAllUsersRegister()
 
                 if (data!!.isNotEmpty()) {
                     data!!.forEach { userRegisterQuery ->
+                        userRegisterQuery.hourFormat = Utils.parseDateString(userRegisterQuery.hourUser!!)
                         run {
                             writer.write(userRegisterQuery,
-                                    arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourUser.name),
-                                    arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null))
+                                    arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::email.name, UserRegisterDao.UserRegisterQuery::company.name, UserRegisterDao.UserRegisterQuery::position.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourFormat.name),
+                                    arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null, null, null, null))
                         }
                     }
                 }

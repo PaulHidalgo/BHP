@@ -6,13 +6,14 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import android.os.Parcel
 import android.os.Parcelable
+import com.bhp.securitytest.Utils
 import org.joda.time.DateTime
 import java.util.*
 
 @Dao
 interface UserRegisterDao {
 
-    @Query("Select ur.date as dateUser, user.idType,user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState,user.email, user.company, user.position " +
             "from user_register as ur " +
             "INNER JOIN user ON user.id = ur.user_id " +
             "INNER JOIN register ON register.id = ur.register_id " +
@@ -27,7 +28,7 @@ interface UserRegisterDao {
             "ORDER BY ur.date ")
     fun getAllUsersRegisterGroupBy(from: Date, to: Date): List<UserRegister>
 
-    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState,user.email, user.company, user.position " +
             "from user_register as ur " +
             "INNER JOIN user ON user.id = ur.user_id " +
             "INNER JOIN register ON register.id = ur.register_id " +
@@ -35,7 +36,7 @@ interface UserRegisterDao {
     fun getAllUsersRegister(): List<UserRegisterQuery>
 
 
-    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState " +
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState,user.email, user.company, user.position " +
             "from user_register as ur " +
             "INNER JOIN user ON user.id = ur.user_id " +
             "INNER JOIN register ON register.id = ur.register_id " +
@@ -50,7 +51,6 @@ interface UserRegisterDao {
             "AND ur.date = :date")
     fun getCountUserDay(id: String, date: Date): Int
 
-    //Duda --> El mismo día puede tener un ingreso y salida dos veces
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(userRegister: UserRegister)
@@ -63,6 +63,11 @@ interface UserRegisterDao {
         var userLastName: String = ""
         var hourUser: DateTime? = null
         var descState = ""
+        var email: String = ""
+        var company: String = ""
+        var position: String = ""
+        @Transient
+        var hourFormat: String = ""
 
         constructor(parcel: Parcel) : this() {
             dateUser = Date(parcel.readLong())
@@ -72,6 +77,10 @@ interface UserRegisterDao {
             userLastName = parcel.readString()
             hourUser = DateTime(parcel.readLong())
             descState = parcel.readString()
+            email = parcel.readString()
+            company = parcel.readString()
+            position = parcel.readString()
+            hourFormat = parcel.readString()
         }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -82,6 +91,10 @@ interface UserRegisterDao {
             parcel.writeString(userLastName)
             parcel.writeLong(hourUser!!.millis)
             parcel.writeString(descState)
+            parcel.writeString(email)
+            parcel.writeString(company)
+            parcel.writeString(position)
+            parcel.writeString(hourFormat)
         }
 
         override fun describeContents(): Int {
