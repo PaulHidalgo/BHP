@@ -51,6 +51,7 @@ class OptionActivity : BaseActivity(), View.OnClickListener {
         io_button.setOnClickListener(this)
         btn_courses.setOnClickListener(this)
         btn_visitors.setOnClickListener(this)
+
     }
 
     override fun onClick(v: View?) {
@@ -87,6 +88,7 @@ class OptionActivity : BaseActivity(), View.OnClickListener {
         var db: UserDatabase = UserDatabase.getInstance(this@OptionActivity)!!
         var count: Int? = null
         var userRegister: UserRegister? = null
+        var hour = DateTime()
 
         override fun doInBackground(vararg params: Void): Boolean? {
             count = db.userRegisterDao().getCountUserDay(mId, mDate)
@@ -94,7 +96,7 @@ class OptionActivity : BaseActivity(), View.OnClickListener {
             when (mStateUser) {
                 StateUser.ENTRY -> {
                     if (count!! % 2 == 0) {
-                        userRegister = UserRegister(mId.toUpperCase(), 1, Utils.parseDate(Date()), DateTime())
+                        userRegister = UserRegister(mId.toUpperCase(), 1, Utils.parseDate(Date()), hour)
                         db.userRegisterDao().insert(userRegister!!)
                         return true
                     }
@@ -105,7 +107,7 @@ class OptionActivity : BaseActivity(), View.OnClickListener {
                     if (count!! % 2 == 0) {
                         return false
                     }
-                    userRegister = UserRegister(mId.toUpperCase(), 2, Utils.parseDate(Date()), DateTime())
+                    userRegister = UserRegister(mId.toUpperCase(), 2, Utils.parseDate(Date()), hour)
                     db.userRegisterDao().insert(userRegister!!)
                     return true
                 }
@@ -117,10 +119,8 @@ class OptionActivity : BaseActivity(), View.OnClickListener {
             when (mStateUser) {
                 StateUser.ENTRY -> {
                     if (success!!) {
-//                        AlertDialog.Builder(this@OptionActivity).setTitle(R.string.bhp).setMessage(getString(R.string.register_entry))
-//                                .setPositiveButton(R.string.accept, null).setCancelable(false).show()
-                        finish()
-                        startActivity(PresentationActivity.intent(this@OptionActivity, user))
+                        AlertDialog.Builder(this@OptionActivity).setTitle(R.string.bhp).setMessage(getString(R.string.register_entry, Utils.parseDateString(hour)))
+                                .setPositiveButton(R.string.accept, null).setCancelable(false).show()
                     }
                 }
 

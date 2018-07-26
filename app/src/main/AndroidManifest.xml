@@ -41,12 +41,14 @@
         <activity
             android:name=".VisitActivity"
             android:label="@string/visitors" />
-        <activity android:name=".OptionActivity" />
+        <activity
+            android:name=".OptionActivity"
+            android:label="@string/return_menu_principal" />
 
         <receiver
             android:name=".broadcast.AlarmRegisterExit"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
     </application>
 
 </manifest>

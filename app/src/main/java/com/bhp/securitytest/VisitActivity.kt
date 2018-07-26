@@ -274,7 +274,22 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                     }
 
                 }
-                VisitTable.USER -> data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))
+                VisitTable.USER -> {
+                    data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))
+
+                    if (data!!.isNotEmpty()) {
+                        for (i in 0 until data!!.size) {
+                            val countRegister = db.userRegisterDao().getCountUserDay(data!![i].userId, Utils.parseDate(Date()))
+                            if (countRegister % 2 != 0) {
+                                val dataFilter = db.userRegisterDao().getUsersRegisterByStateId(data!![i].userId, "E", Utils.parseDate(Date()), Utils.parseDate(Date()))
+                                if (dataFilter.isNotEmpty()) {
+                                    //TODO Add element to list
+
+                                }
+                            }
+                        }
+                    }
+                }
             }
             if (data!!.isEmpty()) {
                 return false

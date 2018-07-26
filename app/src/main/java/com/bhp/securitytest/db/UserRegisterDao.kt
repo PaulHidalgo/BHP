@@ -1,9 +1,6 @@
 package com.bhp.securitytest.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import android.os.Parcel
 import android.os.Parcelable
 import com.bhp.securitytest.Utils
@@ -19,8 +16,17 @@ interface UserRegisterDao {
             "INNER JOIN register ON register.id = ur.register_id " +
             "WHERE register.state = :state " +
             "AND dateUser BETWEEN :from AND :to " +
-            "ORDER BY dateUser")
+            "ORDER BY userId")
     fun getUsersRegisterByState(state: String, from: Date, to: Date): List<UserRegisterQuery>
+
+    @Query("Select ur.date as dateUser,user.idType, user.id as userId, user.name as userName, user.lastname as userLastName, ur.hour as hourUser, register.description as descState,user.email, user.company, user.position " +
+            "from user_register as ur " +
+            "INNER JOIN user ON user.id = ur.user_id " +
+            "INNER JOIN register ON register.id = ur.register_id " +
+            "WHERE register.state = :state " +
+            "AND dateUser BETWEEN :from AND :to " +
+            "ORDER BY userId")
+    fun getUsersRegisterByStateId(userId:String, state: String, from: Date, to: Date): List<UserRegisterQuery>
 
     @Query("Select *  " +
             "from user_register as ur " +
@@ -54,6 +60,9 @@ interface UserRegisterDao {
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(userRegister: UserRegister)
+
+    @Update
+    fun update(userRegister: UserRegister)
 
     class UserRegisterQuery() : Parcelable {
         var dateUser: Date? = null

@@ -9,6 +9,8 @@
     <string name="finish">Finalizar</string>
     <string name="message_exit">¿Está seguro que desea salir?</string>
     <string name="template_version">V. %1$d</string>
+    <string name="return_menu_principal">Regresar al menú principal</string>
+
 
     <!-- Strings related to registration -->
     <string name="register">Registro</string>
@@ -122,7 +124,7 @@
     <string name="template_name">%1$s %2$s</string>
     <string name="register_exit">Se ha registrado la salida de manera exitosa.</string>
     <string name="error_register_exit">Ya ha registrado su salida.</string>
-    <string name="register_entry">Se ha registrado su entrada de manera exitosa.</string>
+    <string name="register_entry">Se ha registrado su entrada de manera exitosa a las %1$s</string>
     <string name="message_register_exit">¿Está seguro que desea registrar su salida?</string>
     <string name="date_from">Desde</string>
     <string name="date_to">Hasta</string>
@@ -131,6 +133,6 @@
 
     <!-- Options after Login -->
     <string name="courses">Cursos</string>
-    <string name="label_exit">Salida</string>
+    <string name="label_exit">Salida Visita</string>
 
 </resources>
