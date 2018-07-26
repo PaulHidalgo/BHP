@@ -25,6 +25,7 @@ interface UserRegisterDao {
             "INNER JOIN register ON register.id = ur.register_id " +
             "WHERE register.state = :state " +
             "AND dateUser BETWEEN :from AND :to " +
+            "AND userId = :userId " +
             "ORDER BY userId")
     fun getUsersRegisterByStateId(userId:String, state: String, from: Date, to: Date): List<UserRegisterQuery>
 

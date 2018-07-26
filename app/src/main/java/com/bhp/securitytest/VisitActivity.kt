@@ -277,17 +277,25 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                 VisitTable.USER -> {
                     data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))
                     val dataTemp: MutableList<UserRegisterDao.UserRegisterQuery> = mutableListOf()
+
                     if (data!!.isNotEmpty()) {
+                        var temp = ""
                         for (i in 0 until data!!.size) {
-                            val countRegister = db.userRegisterDao().getCountUserDay(data!![i].userId, Utils.parseDate(Date()))
-                            if (countRegister % 2 != 0) {
-                                val dataFilter = db.userRegisterDao().getUsersRegisterByStateId(data!![i].userId, "E", Utils.parseDate(Date()), Utils.parseDate(Date()))
-                                if (dataFilter.isNotEmpty()) {
-                                    dataTemp.add(dataFilter.last())
+                            if (temp != data!![i].userId) {
+                                val countRegister = db.userRegisterDao().getCountUserDay(data!![i].userId, Utils.parseDate(Date()))
+                                if (countRegister % 2 != 0) {
+                                    temp = data!![i].userId
+
+                                    val dataFilter = db.userRegisterDao().getUsersRegisterByStateId(data!![i].userId, "E", Utils.parseDate(Date()), Utils.parseDate(Date()))
+                                    if (dataFilter.isNotEmpty()) {
+
+                                        dataTemp.add(dataFilter.last())
+                                    }
                                 }
                             }
                         }
                     }
+
                     data = dataTemp
                 }
             }
