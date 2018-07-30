@@ -3,7 +3,6 @@ package com.bhp.securitytest.db
 import android.arch.persistence.room.*
 import android.os.Parcel
 import android.os.Parcelable
-import com.bhp.securitytest.Utils
 import org.joda.time.DateTime
 import java.util.*
 
@@ -27,7 +26,7 @@ interface UserRegisterDao {
             "AND dateUser BETWEEN :from AND :to " +
             "AND userId = :userId " +
             "ORDER BY userId")
-    fun getUsersRegisterByStateId(userId:String, state: String, from: Date, to: Date): List<UserRegisterQuery>
+    fun getUsersRegisterByStateId(userId: String, state: String, from: Date, to: Date): List<UserRegisterQuery>
 
     @Query("Select *  " +
             "from user_register as ur " +
@@ -78,6 +77,8 @@ interface UserRegisterDao {
         var position: String = ""
         @Transient
         var hourFormat: String = ""
+        @Transient
+        var hourExit: String = ""
 
         constructor(parcel: Parcel) : this() {
             dateUser = Date(parcel.readLong())
@@ -91,6 +92,7 @@ interface UserRegisterDao {
             company = parcel.readString()
             position = parcel.readString()
             hourFormat = parcel.readString()
+            hourExit = parcel.readString()
         }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -105,6 +107,7 @@ interface UserRegisterDao {
             parcel.writeString(company)
             parcel.writeString(position)
             parcel.writeString(hourFormat)
+            parcel.writeString(hourExit)
         }
 
         override fun describeContents(): Int {
@@ -122,7 +125,7 @@ interface UserRegisterDao {
         }
 
         override fun toString(): String {
-            return "UserRegisterQuery(dateUser='$dateUser', userId='$userId', userName='$userName',userLastName='$userLastName', hourUser='$hourUser', descState='$descState')"
+            return "UserRegisterQuery(dateUser='$dateUser', userId='$userId', userName='$userName',userLastName='$userLastName', hourUser='$hourUser', descState='$descState', hourFormat='$hourFormat', hourExit='$hourExit')"
         }
     }
 }

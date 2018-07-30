@@ -379,16 +379,47 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                 }
                 writer = CsvBeanWriter(OutputStreamWriter(FileOutputStream(file), Charsets.ISO_8859_1), CsvPreference.STANDARD_PREFERENCE)
 
-                writer.writeHeader("Fecha", "Tipo Identificación", "ID", "Nombre", "Apellido", "Email", "Empresa", "Cargo", "Estado", "Hora")
+                writer.writeHeader("Fecha", "Tipo Identificación", "ID", "Nombre", "Apellido", "Email", "Empresa", "Cargo", "Estado", "Hora Entrada", "Hora Salida")
                 data = db.userRegisterDao().getAllUsersRegister()
+                val dataTemp: MutableList<UserRegisterDao.UserRegisterQuery> = mutableListOf()
 
                 if (data!!.isNotEmpty()) {
-                    data!!.forEach { userRegisterQuery ->
+                    if (data!!.size > 1) {
+                        for (i in 0 until data!!.size) {
+                            val tmp = i + 1
+                            if (tmp != data!!.size) {
+                                if (data!![i].userId == data!![i + 1].userId) {
+                                    dataTemp.add(data!![i])
+                                    dataTemp[i].hourExit = Utils.parseDateString(data!![i + 1].hourUser!!)
+                                } else {
+                                    dataTemp.add(data!![i])
+                                }
+                            } else {
+                                if (data!![i].descState != "Salida") {
+                                    dataTemp.add(data!![i])
+                                }
+                            }
+                        }
+                    }
+
+//                    data!!.forEach { userRegisterQuery ->
+//                        userRegisterQuery.hourFormat = Utils.parseDateString(userRegisterQuery.hourUser!!)
+//                        run {
+//                            writer.write(userRegisterQuery,
+//                                    arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::email.name, UserRegisterDao.UserRegisterQuery::company.name, UserRegisterDao.UserRegisterQuery::position.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourFormat.name),
+//                                    arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null, null, null, null))
+//                        }
+//                    }
+
+                    dataTemp.forEach { userRegisterQuery ->
                         userRegisterQuery.hourFormat = Utils.parseDateString(userRegisterQuery.hourUser!!)
-                        run {
-                            writer.write(userRegisterQuery,
-                                    arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::email.name, UserRegisterDao.UserRegisterQuery::company.name, UserRegisterDao.UserRegisterQuery::position.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourFormat.name),
-                                    arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null, null, null, null))
+                        if (userRegisterQuery.descState != "Salida") {
+                            Log.i("Data-->", userRegisterQuery.toString())
+                            run {
+                                writer.write(userRegisterQuery,
+                                        arrayOf(UserRegisterDao.UserRegisterQuery::dateUser.name, UserRegisterDao.UserRegisterQuery::idType.name, UserRegisterDao.UserRegisterQuery::userId.name, UserRegisterDao.UserRegisterQuery::userName.name, UserRegisterDao.UserRegisterQuery::userLastName.name, UserRegisterDao.UserRegisterQuery::email.name, UserRegisterDao.UserRegisterQuery::company.name, UserRegisterDao.UserRegisterQuery::position.name, UserRegisterDao.UserRegisterQuery::descState.name, UserRegisterDao.UserRegisterQuery::hourFormat.name, UserRegisterDao.UserRegisterQuery::hourExit.name),
+                                        arrayOf(Optional(FmtDate(formatDefaultDate)), StrReplace("C", "Cédula", StrReplace("P", "Pasaporte")), null, null, null, null, null, null, null, null, null))
+                            }
                         }
                     }
                 }
