@@ -31,16 +31,16 @@
         android:text="Nombre" />
 
     <TextView
-        android:id="@+id/txt_state"
-        android:layout_weight="1"
-        android:background="@drawable/bg_border"
-        android:gravity="center"
-        android:text="Estado" />
-
-    <TextView
         android:id="@+id/txt_hour"
         android:layout_weight="1"
         android:background="@drawable/bg_border"
         android:gravity="center"
-        android:text="Hora" />
+        android:text="Hora Ingreso" />
+
+    <TextView
+        android:id="@+id/txt_hour_exit"
+        android:layout_weight="1"
+        android:background="@drawable/bg_border"
+        android:gravity="center"
+        android:text="Hora Salida" />
 </TableRow>

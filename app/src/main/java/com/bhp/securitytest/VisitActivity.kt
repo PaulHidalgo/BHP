@@ -182,8 +182,8 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                 (rowHead.findViewById<View>(R.id.txt_type_doc) as TextView).text = ("Tipo Doc.")
                 (rowHead.findViewById<View>(R.id.txt_ci) as TextView).text = ("ID")
                 (rowHead.findViewById<View>(R.id.txt_name) as TextView).text = ("Nombre")
-                (rowHead.findViewById<View>(R.id.txt_state) as TextView).text = ("Estado")
-                (rowHead.findViewById<View>(R.id.txt_hour) as TextView).text = ("Hora")
+                (rowHead.findViewById<View>(R.id.txt_hour) as TextView).text = ("Hora Ingreso")
+                (rowHead.findViewById<View>(R.id.txt_hour_exit) as TextView).text = ("Hora Salida")
                 tbl_visitors!!.addView(rowHead)
             }
 
@@ -257,7 +257,7 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
     @SuppressLint("StaticFieldLeak")
     inner class GetDataTask internal constructor(var dateFrom: Date?, var dateTo: Date?) : AsyncTask<Void, Void, Boolean>() {
         var db: UserDatabase = UserDatabase.getInstance(this@VisitActivity)!!
-
+        val dataTemp: MutableList<UserRegisterDao.UserRegisterQuery> = mutableListOf()
         override fun onPreExecute() {
             tbl_visitors.removeAllViews()
             showProgress(true)
@@ -272,11 +272,33 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                     } else {
                         data = db.userRegisterDao().getAllUsersRegisterFilter(Utils.parseDate(dateFrom!!), Utils.parseDate(dateTo!!))
                     }
+                    if (data!!.isNotEmpty()) {
+                        if (data!!.size > 1) {
+                            for (i in 0 until data!!.size) {
+                                val tmp = i + 1
+                                if (tmp != data!!.size) {
+                                    if (data!![i].userId == data!![i + 1].userId) {
+                                        dataTemp.add(data!![i])
+                                        dataTemp[i].hourExit = Utils.parseDateString(data!![i + 1].hourUser!!)
+                                    } else {
+                                        dataTemp.add(data!![i])
+                                    }
+                                } else {
+                                    if (data!![i].descState != "Salida") {
+                                        dataTemp.add(data!![i])
+                                    }
+                                }
+                            }
+                        } else {
+                            dataTemp.add(data!![0])
+                        }
+
+                        data = dataTemp
+                    }
 
                 }
                 VisitTable.USER -> {
                     data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))
-                    val dataTemp: MutableList<UserRegisterDao.UserRegisterQuery> = mutableListOf()
 
                     if (data!!.isNotEmpty()) {
                         var temp = ""
@@ -320,18 +342,21 @@ class VisitActivity : BaseActivity(), View.OnClickListener {
                     for (i in 0 until data!!.size) {
                         when (opt) {
                             VisitTable.ADMIN -> {
-                                val row = LayoutInflater.from(this@VisitActivity).inflate(R.layout.attrib_row, null) as TableRow
-                                (row.findViewById<View>(R.id.txt_date) as TextView).text = (Utils.parseDateString(data!![i].dateUser!!))
-                                var typeDoc = "Pasaporte"
-                                if (data!![i].idType.equals("C")) {
-                                    typeDoc = "Cédula"
+                                if (data!![i].descState != "Salida" || data!!.size == 1) {
+                                    val row = LayoutInflater.from(this@VisitActivity).inflate(R.layout.attrib_row, null) as TableRow
+                                    (row.findViewById<View>(R.id.txt_date) as TextView).text = (Utils.parseDateString(data!![i].dateUser!!))
+                                    var typeDoc = "Pasaporte"
+                                    if (data!![i].idType.equals("C")) {
+                                        typeDoc = "Cédula"
+                                    }
+                                    data!![i].hourFormat = Utils.parseDateString(data!![i].hourUser!!)
+                                    (row.findViewById<View>(R.id.txt_type_doc) as TextView).text = typeDoc
+                                    (row.findViewById<View>(R.id.txt_ci) as TextView).text = (data!![i].userId)
+                                    (row.findViewById<View>(R.id.txt_name) as TextView).text = data!![i].userName + " " + data!![i].userLastName
+                                    (row.findViewById<View>(R.id.txt_hour) as TextView).text = (Utils.parseDateString(data!![i].hourUser!!))
+                                    (row.findViewById<View>(R.id.txt_hour_exit) as TextView).text = data!![i].hourExit
+                                    tbl_visitors!!.addView(row)
                                 }
-                                (row.findViewById<View>(R.id.txt_type_doc) as TextView).text = typeDoc
-                                (row.findViewById<View>(R.id.txt_ci) as TextView).text = (data!![i].userId)
-                                (row.findViewById<View>(R.id.txt_name) as TextView).text = data!![i].userName + " " + data!![i].userLastName
-                                (row.findViewById<View>(R.id.txt_state) as TextView).text = (data!![i].descState)
-                                (row.findViewById<View>(R.id.txt_hour) as TextView).text = (Utils.parseDateString(data!![i].hourUser!!))
-                                tbl_visitors!!.addView(row)
                             }
                             VisitTable.USER -> {
                                 val row = LayoutInflater.from(this@VisitActivity).inflate(R.layout.attrib_row_visit, null) as TableRow
