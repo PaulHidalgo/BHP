@@ -54,6 +54,7 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.alexvasilkov:gesture-views:2.5.2'
+    implementation "com.android.support:support-compat:27.1.1"
     kapt "android.arch.persistence.room:compiler:$room_version"
 
     testImplementation 'junit:junit:4.12'

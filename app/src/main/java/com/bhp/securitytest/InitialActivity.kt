@@ -9,6 +9,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.bhp.securitytest.broadcast.AlarmNotifications
 import com.bhp.securitytest.broadcast.AlarmRegisterExit
 import com.bhp.securitytest.db.Register
 import com.bhp.securitytest.db.User
@@ -31,7 +32,7 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    @SuppressLint("StringFormatMatches")
+    @SuppressLint("StringFormatMatches", "PrivateResource")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initial)
@@ -52,7 +53,8 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
                     23, 30, 0)
         }
 
-        setAlarm(calendar.timeInMillis)
+        setAlarmRegisterExit(calendar.timeInMillis)
+        setAlarmNotifications()
 
         if (BuildConfig.DEBUG) {
             version.visibility = View.VISIBLE
@@ -93,7 +95,7 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun setAlarm(time: Long) {
+    private fun setAlarmRegisterExit(time: Long) {
         //getting the alarm manager
         val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -105,5 +107,26 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
 
         //setting the repeating alarm that will be fired every day
         am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi)
+    }
+
+    private fun setAlarmNotifications() {
+        //getting the alarm manager
+        val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        //creating a new intent specifying the broadcast receiver
+        val i = Intent(this, AlarmNotifications::class.java)
+
+        //creating a pending intent using the intent
+        val pi = PendingIntent.getBroadcast(this, 0, i, 0)
+
+        // Set the alarm to start at 8:30 a.m.
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 8)
+            set(Calendar.MINUTE, 0)
+        }
+
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, 1000 * 60 * 5, pi)
     }
 }

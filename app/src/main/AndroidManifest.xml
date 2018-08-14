@@ -49,6 +49,10 @@
             android:name=".broadcast.AlarmRegisterExit"
             android:enabled="true"
             android:exported="true" />
+        <receiver
+            android:name=".broadcast.AlarmNotifications"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
