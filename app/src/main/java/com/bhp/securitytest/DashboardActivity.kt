@@ -3,6 +3,9 @@ package com.bhp.securitytest
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
+import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -29,9 +32,7 @@ import org.supercsv.cellprocessor.Trim
 import org.supercsv.io.CsvBeanWriter
 import org.supercsv.prefs.CsvPreference
 import org.supercsv.util.CsvContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
+import java.io.*
 
 class DashboardActivity : BaseActivity() {
     private var mTask: GetDataTask? = null
@@ -39,6 +40,7 @@ class DashboardActivity : BaseActivity() {
     private var users: MutableList<User> = mutableListOf()
     private lateinit var chooser: StorageChooser
     private lateinit var path: String
+    val requestcode = 1
 
     companion object {
         const val REQUEST_DIRECTORY = 0
@@ -75,7 +77,7 @@ class DashboardActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.dashboard_menu, menu)
+        menuInflater.inflate(R.menu.dashboard_users_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -99,6 +101,20 @@ class DashboardActivity : BaseActivity() {
                 }
                 true
             }
+            R.id.menu_import -> {
+
+                var fileintent = Intent(Intent.ACTION_GET_CONTENT)
+                fileintent.addCategory(Intent.CATEGORY_OPENABLE)
+                fileintent.type = "*/*"
+                fileintent = Intent.createChooser(fileintent, "Choose a file")
+                try {
+                    startActivityForResult(fileintent, requestcode)
+                } catch (e: ActivityNotFoundException) {
+                    e.printStackTrace()
+                }
+
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -110,6 +126,38 @@ class DashboardActivity : BaseActivity() {
             grantResults.forEach { res -> ok = (res == PackageManager.PERMISSION_GRANTED) }
             if (ok) {
                 chooser.show()
+            }
+        }
+    }
+
+    @Suppress("SENSELESS_COMPARISON")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data == null) return
+        when (requestCode) {
+            requestcode -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    var inputStream: InputStream? = null
+                    var reader: BufferedReader? = null
+
+                    inputStream = contentResolver.openInputStream(data.data!!)
+                    reader = BufferedReader(InputStreamReader(inputStream))
+                    var line: String
+                    do {
+                        line = reader.readLine()
+                        if (line != null) {
+                            val str = line.split(";".toRegex(), 3).toTypedArray()  // defining 3 columns with null or blank field //values acceptance
+                            //Id, Company,Name,Price
+                            val company = str[0]
+                            val Name = str[1]
+                            val Price = str[2]
+                        }
+                    } while (line != null)
+
+                } else {
+                    val d = Dialog(this)
+                    d.setTitle("Only CSV files allowed")
+                    d.show()
+                }
             }
         }
     }

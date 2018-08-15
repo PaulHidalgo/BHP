@@ -102,6 +102,7 @@
     <string name="succeeded">Aprobado</string>
     <string name="failed">Fallido</string>
     <string name="export">Exportar</string>
+    <string name="importcsv">Importar</string>
     <string name="export_succeeded">Exportar realizado exitosamente.\nPuede encontrar el archivo en %1$s</string>
     <string name="export_failed">Ocurrió un error al exportar los datos. Intente nuevamente.</string>
 
