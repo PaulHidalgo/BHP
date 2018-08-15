@@ -5,7 +5,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -34,7 +33,6 @@ import org.supercsv.io.CsvBeanWriter
 import org.supercsv.prefs.CsvPreference
 import org.supercsv.util.CsvContext
 import java.io.*
-import java.lang.IllegalStateException
 import java.util.*
 
 class DashboardActivity : BaseActivity() {
@@ -109,7 +107,7 @@ class DashboardActivity : BaseActivity() {
 
                 var fileintent = Intent(Intent.ACTION_GET_CONTENT)
                 fileintent.addCategory(Intent.CATEGORY_OPENABLE)
-                fileintent.type = "*/*"
+                fileintent.type = "text/*"
                 fileintent = Intent.createChooser(fileintent, "Choose a file")
                 try {
                     startActivityForResult(fileintent, requestcode)
@@ -149,7 +147,9 @@ class DashboardActivity : BaseActivity() {
                     var line: String
                     try {
                         showProgress(true)
+                        var count = 0
                         do {
+                            count++
                             line = reader.readLine()
                             val str = line.split(",".toRegex(), 9).toTypedArray()  // defining 9 columns with null or blank field //values acceptance
                             //Id, Company,Name,Price
@@ -162,10 +162,15 @@ class DashboardActivity : BaseActivity() {
                             val position = str[6]
                             val state = str[7]
                             val expires = str[8]
-
-                            Log.i("-->", "" + str[0] + " " + str[1] + " " + str[2] + " " + str[3] + " " + str[4] + " " + str[5] + " " + str[6] + " " + str[7] + " " + str[8])
-
-                            if (state != "Estado") {
+                            if (count == 1) {
+                                if ((expires == null || expires.isEmpty()) || expires != "Expira") {
+                                    showProgress(false)
+                                    AlertDialog.Builder(this@DashboardActivity).setTitle(R.string.app_name).setMessage("No se puede importar el archivo seleccionado.")
+                                            .setPositiveButton(R.string.accept, null).setCancelable(false).show()
+                                    return
+                                }
+                            }
+                            if (count > 1) {
                                 var idTypeStr: String
                                 idTypeStr = if (typeIdentification.startsWith("C")) {
                                     "C"
@@ -186,7 +191,7 @@ class DashboardActivity : BaseActivity() {
                             }
 
                         } while (line != null)
-                    } catch (e: IllegalStateException) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
 
@@ -194,9 +199,8 @@ class DashboardActivity : BaseActivity() {
                     mTask!!.execute(null as Void?)
 
                 } else {
-                    val d = Dialog(this)
-                    d.setTitle("Only CSV files allowed")
-                    d.show()
+                    AlertDialog.Builder(this@DashboardActivity).setTitle(R.string.app_name).setMessage("Solo permitidos archivos CSV.")
+                            .setPositiveButton(R.string.accept, null).setCancelable(false).show()
                 }
             }
         }
