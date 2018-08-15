@@ -3,6 +3,7 @@ package com.bhp.securitytest
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
@@ -33,6 +34,8 @@ import org.supercsv.io.CsvBeanWriter
 import org.supercsv.prefs.CsvPreference
 import org.supercsv.util.CsvContext
 import java.io.*
+import java.lang.IllegalStateException
+import java.util.*
 
 class DashboardActivity : BaseActivity() {
     private var mTask: GetDataTask? = null
@@ -41,6 +44,7 @@ class DashboardActivity : BaseActivity() {
     private lateinit var chooser: StorageChooser
     private lateinit var path: String
     val requestcode = 1
+    private var mRegisterTask: DashboardActivity.UserRegisterTask? = null
 
     companion object {
         const val REQUEST_DIRECTORY = 0
@@ -130,6 +134,7 @@ class DashboardActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Suppress("SENSELESS_COMPARISON")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data == null) return
@@ -142,16 +147,51 @@ class DashboardActivity : BaseActivity() {
                     inputStream = contentResolver.openInputStream(data.data!!)
                     reader = BufferedReader(InputStreamReader(inputStream))
                     var line: String
-                    do {
-                        line = reader.readLine()
-                        if (line != null) {
-                            val str = line.split(";".toRegex(), 3).toTypedArray()  // defining 3 columns with null or blank field //values acceptance
+                    try {
+                        showProgress(true)
+                        do {
+                            line = reader.readLine()
+                            val str = line.split(",".toRegex(), 9).toTypedArray()  // defining 9 columns with null or blank field //values acceptance
                             //Id, Company,Name,Price
-                            val company = str[0]
-                            val Name = str[1]
-                            val Price = str[2]
-                        }
-                    } while (line != null)
+                            val identification = str[0]
+                            val typeIdentification = str[1]
+                            val name = str[2]
+                            val lastName = str[3]
+                            val email = str[4]
+                            val company = str[5]
+                            val position = str[6]
+                            val state = str[7]
+                            val expires = str[8]
+
+                            Log.i("-->", "" + str[0] + " " + str[1] + " " + str[2] + " " + str[3] + " " + str[4] + " " + str[5] + " " + str[6] + " " + str[7] + " " + str[8])
+
+                            if (state != "Estado") {
+                                var idTypeStr: String
+                                idTypeStr = if (typeIdentification.startsWith("C")) {
+                                    "C"
+                                } else {
+                                    "P"
+                                }
+                                val date = Calendar.getInstance()
+                                var longDate: Long = 0
+                                if (expires != null && expires.isNotEmpty()) {
+                                    val formatDate = expires.split("/").toTypedArray()
+                                    date.set(formatDate[2].toInt(), formatDate[1].toInt(), formatDate[0].toInt())
+                                    longDate = date.timeInMillis
+                                }
+
+                                //Register a user
+                                mRegisterTask = UserRegisterTask(name.trim(), lastName.trim(), email.trim(), identification.trim(), idTypeStr, company.trim(), position.trim(), longDate, state == "exitoso")
+                                mRegisterTask!!.execute(null as Void?)
+                            }
+
+                        } while (line != null)
+                    } catch (e: IllegalStateException) {
+                        e.printStackTrace()
+                    }
+
+                    mTask = GetDataTask()
+                    mTask!!.execute(null as Void?)
 
                 } else {
                     val d = Dialog(this)
@@ -252,17 +292,19 @@ class DashboardActivity : BaseActivity() {
 
         override fun doInBackground(vararg params: Void): Boolean? {
 //            Log.d("Registers-->", "" + db.registerDao().getAll())
+            users.clear()
             users.addAll(db.userDao().getAll())
 
             if (users.isEmpty()) {
                 return false
             }
-            list.adapter.notifyDataSetChanged()
+
             return true
         }
 
         override fun onPostExecute(success: Boolean?) {
             mTask = null
+            list.adapter.notifyDataSetChanged()
             showProgress(false)
 
             if (!success!!) {
@@ -336,6 +378,42 @@ class DashboardActivity : BaseActivity() {
                 }
                 return next.execute<String>(result, context)
             }
+        }
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    inner class UserRegisterTask internal constructor(private val mName: String, private val mLastname: String, private val mEmail: String, private val mId: String, private val mIdType: String, private val mCompany: String, private val mPosition: String, private val mExpire: Long, private val mState: Boolean) : AsyncTask<Void, Void, Boolean>() {
+        var db: UserDatabase = UserDatabase.getInstance(this@DashboardActivity)!!
+        var user: User? = null
+
+        override fun doInBackground(vararg params: Void): Boolean? {
+            user = db.userDao().findByIdAndType(mId.toUpperCase(), mIdType)
+
+            if (user == null) {
+                val expire = if (mExpire.equals(0)) null else mExpire
+                user = User(mId.toUpperCase(), mIdType, mName, mLastname, mEmail, mCompany, mPosition, null, null, expire!!, mState)
+
+                db.userDao().insert(user!!)
+                return true
+            }
+            return false
+        }
+
+        override fun onPostExecute(success: Boolean?) {
+            mRegisterTask = null
+
+            if (!success!!) {
+                Log.i("Error-->", getString(R.string.error_user_already_exists))
+            } else {
+                Log.i("Registrado-->", "User Register")
+            }
+        }
+
+        override fun onCancelled() {
+            mRegisterTask = null
         }
     }
 }

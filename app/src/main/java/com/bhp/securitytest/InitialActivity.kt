@@ -127,6 +127,6 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         //setting the repeating alarm that will be fired every day
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, 1000 * 60 * 5, pi)
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, 1000 * 60 * 60, pi)
     }
 }
