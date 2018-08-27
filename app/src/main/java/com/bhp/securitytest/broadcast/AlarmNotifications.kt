@@ -74,9 +74,30 @@ class AlarmNotifications : BroadcastReceiver() {
     inner class SeedDBTask internal constructor(private val mContext: Context, val intent: Intent) : AsyncTask<Void, Void, Boolean>() {
         var db: UserDatabase = UserDatabase.getInstance(mContext)!!
         var body: String = ""
+        val dataTemp: MutableList<UserRegisterDao.UserRegisterQuery> = mutableListOf()
 
         override fun doInBackground(vararg params: Void): Boolean? {
             data = db.userRegisterDao().getUsersRegisterByState("E", Utils.parseDate(Date()), Utils.parseDate(Date()))
+            if (data!!.isNotEmpty()) {
+                var temp = ""
+                for (i in 0 until data!!.size) {
+                    if (temp != data!![i].userId) {
+                        val countRegister = db.userRegisterDao().getCountUserDay(data!![i].userId, Utils.parseDate(Date()))
+                        if (countRegister % 2 != 0) {
+                            temp = data!![i].userId
+
+                            val dataFilter = db.userRegisterDao().getUsersRegisterByStateId(data!![i].userId, "E", Utils.parseDate(Date()), Utils.parseDate(Date()))
+                            if (dataFilter.isNotEmpty()) {
+
+                                dataTemp.add(dataFilter.last())
+                            }
+                        }
+                    }
+                }
+
+                data = dataTemp
+            }
+
             if (data!!.isNotEmpty()) {
                 if (data!!.size > 1) {
                     for (i in 0 until 1) {
