@@ -169,6 +169,6 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
                   which ->
                     startActivity(VisitActivity.intent(this@InitialActivity, VisitTable.USER))
                 }
-                .setCancelable(false).show()
+                .setCancelable(true).show()
     }
 }
