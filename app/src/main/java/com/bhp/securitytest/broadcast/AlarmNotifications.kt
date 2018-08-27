@@ -1,6 +1,7 @@
 package com.bhp.securitytest.broadcast
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -13,6 +14,7 @@ import com.bhp.securitytest.R
 import com.bhp.securitytest.Utils
 import com.bhp.securitytest.db.UserDatabase
 import com.bhp.securitytest.db.UserRegisterDao
+import com.bhp.securitytest.services.PushReceiverIntentService
 import java.util.*
 
 class AlarmNotifications : BroadcastReceiver() {
@@ -22,6 +24,7 @@ class AlarmNotifications : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         attemptVerifyDB(context, intent)
+        resultCode = Activity.RESULT_OK
     }
 
     private fun attemptVerifyDB(mContext: Context, intent: Intent) {
@@ -36,7 +39,8 @@ class AlarmNotifications : BroadcastReceiver() {
     private fun buildNotification(mContext: Context, intent: Intent, body: String) {
         // Create an explicit intent for an Activity in your app
         intent.setClass(mContext, InitialActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("Body", body)
         val pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0)
 
 
@@ -53,6 +57,10 @@ class AlarmNotifications : BroadcastReceiver() {
         val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
         //Show notification only ina range of hours
         if (hourOfDay in 8..20) {
+            val intentService = Intent(mContext, PushReceiverIntentService::class.java)
+            intentService.putExtra("Body", body)
+            mContext.startService(intentService)
+
             notificationManager.notify(1, mBuilder.build())
         }
 

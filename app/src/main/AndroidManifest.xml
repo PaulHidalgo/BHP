@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.bhp.securitytest">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -48,11 +49,21 @@
         <receiver
             android:name=".broadcast.AlarmRegisterExit"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="ExportedReceiver" />
         <receiver
             android:name=".broadcast.AlarmNotifications"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter android:priority="0">
+                <action android:name="com.bhp.securitytest.broadcast.BROADCAST_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".services.PushReceiverIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
