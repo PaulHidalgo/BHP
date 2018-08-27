@@ -52,7 +52,7 @@ class AlarmNotifications : BroadcastReceiver() {
         val calendar = Calendar.getInstance()
         val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
         //Show notification only ina range of hours
-        if (hourOfDay in 9..18) {
+        if (hourOfDay in 8..20) {
             notificationManager.notify(1, mBuilder.build())
         }
 
