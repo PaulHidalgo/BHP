@@ -10,6 +10,7 @@
     <string name="message_exit">¿Está seguro que desea salir?</string>
     <string name="template_version">V. %1$d</string>
     <string name="return_menu_principal">Regresar al menú principal</string>
+    <string name="close">Cerrar</string>
 
 
     <!-- Strings related to registration -->

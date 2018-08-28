@@ -22,10 +22,9 @@ import kotlinx.android.synthetic.main.activity_initial.*
 import java.util.*
 
 
-class InitialActivity : AppCompatActivity(), View.OnClickListener {
+class InitialActivity : NotificationBaseActivity(), View.OnClickListener {
 
     private var mSeedDBTask: SeedDBTask? = null
-    private var bodyNotifiation: String? = null
 
     @SuppressLint("SimpleDateFormat")
     override fun onClick(v: View?) {
@@ -65,34 +64,6 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
             val versionNumber = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode
             version.text = (getString(R.string.template_version, versionNumber))
         }
-    }
-
-    private val notificationReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            // Do something with this incoming message here
-            // Since we will process the message and update the UI, we don't need to show a message in Status Bar
-            // To do this, we call abortBroadcast()
-            abortBroadcast()
-            if (intent.extras != null) {
-                bodyNotifiation = intent.getStringExtra("Body")
-                if (bodyNotifiation != null) {
-                    intent.removeExtra("Body")
-                    displayPopup(bodyNotifiation!!)
-                }
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val filter = IntentFilter("com.bhp.securitytest.broadcast.BROADCAST_NOTIFICATION")
-        filter.setPriority(1)
-        registerReceiver(notificationReceiver, filter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(notificationReceiver)
     }
 
     /**
@@ -160,15 +131,5 @@ class InitialActivity : AppCompatActivity(), View.OnClickListener {
 
         //setting the repeating alarm that will be fired every day
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, 1000 * 60 * 60, pi)
-    }
-
-    fun displayPopup(body: String) {
-        AlertDialog.Builder(this@InitialActivity).setTitle(R.string.bhp).setMessage(body)
-                .setPositiveButton(R.string.accept)
-                { dialog,
-                  which ->
-                    startActivity(VisitActivity.intent(this@InitialActivity, VisitTable.USER))
-                }
-                .setCancelable(true).show()
     }
 }
