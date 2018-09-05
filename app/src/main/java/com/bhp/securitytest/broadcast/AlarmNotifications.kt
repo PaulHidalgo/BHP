@@ -99,12 +99,8 @@ class AlarmNotifications : BroadcastReceiver() {
             }
 
             if (data!!.isNotEmpty()) {
-                if (data!!.size > 1) {
-                    for (i in 0 until 1) {
-                        body += data!![i].userId + " - " + data!![i].userName + " " + data!![i].userLastName
-                    }
-                } else {
-                    body = data!![0].userId + " - " + data!![0].userName + " " + data!![0].userLastName
+                for (i in 0 until data!!.size) {
+                    body += data!![i].userId + " - " + data!![i].userName + " " + data!![i].userLastName
                 }
             } else {
                 body = "No existen visitantes"

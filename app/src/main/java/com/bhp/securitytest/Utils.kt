@@ -62,4 +62,15 @@ object Utils {
     fun parseDateString(date: Date, format: String): String {
         return SimpleDateFormat(format).format(date)
     }
+
+    fun stripSpecialCharacters(str: String): String {
+        val sb = StringBuffer()
+        for (i in 0 until str.length) {
+            val ch = str[i]
+            if (ch != ',') {
+                sb.append(ch)
+            }
+        }
+        return sb.toString()
+    }
 }
