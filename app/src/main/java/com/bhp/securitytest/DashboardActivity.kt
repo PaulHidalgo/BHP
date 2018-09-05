@@ -181,7 +181,7 @@ class DashboardActivity : BaseActivity() {
                                 var longDate: Long = 0
                                 if (expires != null && expires.isNotEmpty()) {
                                     val formatDate = expires.split("/").toTypedArray()
-                                    date.set(formatDate[2].toInt(), formatDate[1].toInt(), formatDate[0].toInt())
+                                    date.set((formatDate[2].toInt() - 2), formatDate[1].toInt(), formatDate[0].toInt())
                                     longDate = date.timeInMillis
                                 }
 

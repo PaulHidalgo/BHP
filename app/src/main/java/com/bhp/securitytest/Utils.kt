@@ -22,7 +22,9 @@ object Utils {
 
     fun getRemainingTime(res: Resources, time: Long): String {
         val period = Period(LocalDateTime.now(), LocalDateTime(time).plusYears(2))
-        val formatter = PeriodFormatterBuilder().printZeroNever().appendYears().appendSuffix(" ${res.getQuantityString(R.plurals.years, period.years)} ")
+//        val period = Period(LocalDateTime.now(), LocalDateTime(time))
+        val formatter = PeriodFormatterBuilder().printZeroNever()
+                .appendYears().appendSuffix(" ${res.getQuantityString(R.plurals.years, period.years)} ")
                 .appendMonths().appendSuffix(" ${res.getQuantityString(R.plurals.months, period.months)} ")
                 .appendDays().appendSuffix(" ${res.getQuantityString(R.plurals.days, period.days)}").toFormatter()
         return formatter.print(period)

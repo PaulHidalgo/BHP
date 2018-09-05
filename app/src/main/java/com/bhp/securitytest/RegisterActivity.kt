@@ -127,6 +127,13 @@ class RegisterActivity : BaseActivity() {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
+            nameStr.replace(",", "-")
+            lastnameStr.replace(",", "-")
+            emailStr.replace(",", "-")
+            idStr.replace(",", "-")
+            idTypeStr.replace(",", "-")
+            companyStr.replace(",", "-")
+            positionStr.replace(",", "-")
             mRegisterTask = UserRegisterTask(nameStr, lastnameStr, emailStr, idStr, idTypeStr, companyStr, positionStr)
             mRegisterTask!!.execute(null as Void?)
         }
