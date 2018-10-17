@@ -18,6 +18,7 @@ import com.bhp.securitytest.db.Register
 import com.bhp.securitytest.db.User
 import com.bhp.securitytest.db.UserDatabase
 import com.bhp.securitytest.enums.VisitTable
+import com.bhp.securitytest.helpers.LocaleHelper
 import kotlinx.android.synthetic.main.activity_initial.*
 import java.util.*
 
@@ -25,6 +26,7 @@ import java.util.*
 class InitialActivity : NotificationBaseActivity(), View.OnClickListener {
 
     private var mSeedDBTask: SeedDBTask? = null
+    private val mLanguageCode = "en"
 
     @SuppressLint("SimpleDateFormat")
     override fun onClick(v: View?) {
@@ -32,6 +34,13 @@ class InitialActivity : NotificationBaseActivity(), View.OnClickListener {
             R.id.sign_in_button -> startActivity(Intent(this@InitialActivity, LoginActivity::class.java))
             R.id.register_button -> startActivity(Intent(this@InitialActivity, RegisterActivity::class.java))
             R.id.visit_button -> startActivity(VisitActivity.intent(this@InitialActivity, VisitTable.USER))
+            R.id.en->{
+                //Change Application level locale
+                LocaleHelper.setLocale(this@InitialActivity, mLanguageCode)
+
+                //It is required to recreate the activity to reflect the change in UI.
+                recreate()
+            }
         }
     }
 
@@ -42,6 +51,7 @@ class InitialActivity : NotificationBaseActivity(), View.OnClickListener {
         sign_in_button.setOnClickListener(this)
         register_button.setOnClickListener(this)
         visit_button.setOnClickListener(this)
+        en.setOnClickListener(this)
 
         mSeedDBTask = SeedDBTask()
         mSeedDBTask!!.execute(null as Void?)

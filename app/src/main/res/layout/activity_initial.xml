@@ -69,4 +69,22 @@
             android:layout_margin="@dimen/fab_margin"
             android:visibility="gone" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/es"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Espaniol" />
+
+        <Button
+            android:id="@+id/en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingles" />
+    </LinearLayout>
 </RelativeLayout>
