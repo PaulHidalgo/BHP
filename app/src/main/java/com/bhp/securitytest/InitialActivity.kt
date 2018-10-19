@@ -9,8 +9,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.AsyncTask
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.bhp.securitytest.broadcast.AlarmNotifications
 import com.bhp.securitytest.broadcast.AlarmRegisterExit
@@ -34,9 +36,16 @@ class InitialActivity : NotificationBaseActivity(), View.OnClickListener {
             R.id.sign_in_button -> startActivity(Intent(this@InitialActivity, LoginActivity::class.java))
             R.id.register_button -> startActivity(Intent(this@InitialActivity, RegisterActivity::class.java))
             R.id.visit_button -> startActivity(VisitActivity.intent(this@InitialActivity, VisitTable.USER))
-            R.id.en->{
+            R.id.en -> {
                 //Change Application level locale
                 LocaleHelper.setLocale(this@InitialActivity, mLanguageCode)
+
+                //It is required to recreate the activity to reflect the change in UI.
+                recreate()
+            }
+            R.id.es -> {
+                //Change Application level locale
+                LocaleHelper.setLocale(this@InitialActivity, "es")
 
                 //It is required to recreate the activity to reflect the change in UI.
                 recreate()
@@ -52,6 +61,11 @@ class InitialActivity : NotificationBaseActivity(), View.OnClickListener {
         register_button.setOnClickListener(this)
         visit_button.setOnClickListener(this)
         en.setOnClickListener(this)
+        es.setOnClickListener(this)
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        preferences.edit().putString("espaniol", LocaleHelper.getLanguage(this)).apply()
+        Log.i("Languaje-->", LocaleHelper.getLanguage(this))
 
         mSeedDBTask = SeedDBTask()
         mSeedDBTask!!.execute(null as Void?)
