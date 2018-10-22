@@ -3,138 +3,140 @@
 
     <!-- Strings related to initial screen -->
     <string name="bhp">Cerro Quebrado</string>
-    <string name="accept">Aceptar</string>
-    <string name="yes">Si</string>
+    <string name="accept">Accept</string>
+    <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="finish">Finalizar</string>
-    <string name="message_exit">¿Está seguro que desea salir?</string>
+    <string name="finish">Finalize</string>
+    <string name="message_exit">Are you sure you want to exit?</string>
     <string name="template_version">V. %1$d</string>
-    <string name="return_menu_principal">Regresar al menú principal</string>
-    <string name="close">Cerrar</string>
+    <string name="return_menu_principal">Return to the main menu</string>
+    <string name="close">Close</string>
 
 
     <!-- Strings related to registration -->
-    <string name="register">Registro</string>
-    <string name="prompt_name">Nombre</string>
-    <string name="prompt_lastname">Apellido</string>
-    <string name="prompt_id">Cédula</string>
-    <string name="prompt_passport">Pasaporte</string>
-    <string name="action_register">Registrarse</string>
-    <string name="error_user_already_exists">Ya existe un usuario con esta cédula</string>
-    <string name="prompt_company">Empresa</string>
-    <string name="prompt_position">Cargo</string>
+    <string name="register">Registry</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_lastname">Last Name</string>
+    <string name="prompt_id">Identification card</string>
+    <string name="prompt_passport">Passport</string>
+    <string name="action_register">Check in</string>
+    <string name="error_user_already_exists">There is already a user with this card</string>
+    <string name="prompt_company">Company</string>
+    <string name="prompt_position">Position</string>
 
     <!-- Strings related to login -->
-    <string name="login">Ingreso</string>
+    <string name="login">Login</string>
     <string name="prompt_email">Email</string>
-    <string name="action_sign_in">Enter</string>
-    <string name="error_invalid_id">Esta cédula no es válida</string>
-    <string name="error_invalid_email">Esta dirección de correo no es válida</string>
-    <string name="error_invalid_password">La contraseña es muy corta</string>
-    <string name="error_invalid_password_confirmation">Las contraseñas no coinciden</string>
-    <string name="error_incorrect_data">Los datos son incorrectos o el usuario no existe</string>
-    <string name="error_field_required">Este campo es requerido</string>
+    <string name="action_sign_in">Login</string>
+    <string name="error_invalid_id">This card is not valid</string>
+    <string name="error_invalid_email">This email address is not valid</string>
+    <string name="error_invalid_password">The password is very short</string>
+    <string name="error_invalid_password_confirmation">Passwords do not match</string>
+    <string name="error_incorrect_data">The data is incorrect or the user does not exist</string>
+    <string name="error_field_required">This field is required</string>
 
     <!-- Strings related to presentation -->
-    <string name="course_valid_temp">Este curso caduca en %1$s</string>
-    <string name="course_expired">Este curso ha expirado</string>
+    <string name="course_valid_temp">This course expires in %1$s</string>
+    <string name="course_expired">This course has expired</string>
 
     <!-- Strings related to presentation 1 -->
-    <string name="presentation_1_title">Oficinas de Quito</string>
-    <string name="presentation_1_1">Bienvenidos</string>
-    <string name="presentation_1_2">Esta inducción general le dará un resumen de cómo trabajar de forma segura en la oficina de Quito</string>
-    <string name="presentation_1_3">Los riesgos y peligros asociados con el trabajo en este entorno</string>
-    <string name="presentation_1_4">Algunos puntos importantes con los que usted debe cumplir mientras trabaja en la oficina</string>
-    <string name="presentation_1_5">Familiarización</string>
-    <string name="presentation_1_6">Dentro de la oficina encontrará la siguiente información:</string>
-    <string name="presentation_1_7">Plan de evacuación, ubicado al ingreso de la oficina</string>
-    <string name="presentation_1_8">Mapa del punto de encuentro, ubicado al ingreso de la oficina</string>
-    <string name="presentation_1_9">Pizarra de brigadas de seguridad, ubicado al ingreso de la oficina</string>
-    <string name="presentation_1_10">Plano de ubicación de zonas seguras para terremoto, kit de primeros auxilios, extintores y alarmas para incendios. Ubicado al ingreso de la oficina</string>
+    <string name="presentation_1_title">Quito Office</string>
+    <string name="presentation_1_1">Welcome</string>
+    <string name="presentation_1_2">This general induction will  give you a brief on how to work safely in the Quito office</string>
+    <string name="presentation_1_3">The risks and dangers associate with working in this environment</string>
+    <string name="presentation_1_4">Some important ítems wich you have to comply with while working in the office</string>
+    <string name="presentation_1_5">Familiarization</string>
+    <string name="presentation_1_6">Inside the office, you can find the following information:</string>
+    <string name="presentation_1_7">Evacuation plan, located at the office entrance</string>
+    <string name="presentation_1_8">Map of the muster point, located at the office entrance</string>
+    <string name="presentation_1_9">Safety brigade blackboard, located at the office entrance</string>
+    <string name="presentation_1_10">Map of earthquake safe zones, first aid kit, fire extinguishers and alarms. Located at the office entrance</string>
 
     <!-- Strings related to presentation 2 -->
-    <string name="presentation_2_title">Respuesta de Emergencia</string>
-    <string name="presentation_2_1">Incendio</string>
-    <string name="presentation_2_2">En caso de incendio grite FUEGO, FUEGO, FUEGO y active la alarma más cercana (o al momento en que la alarma del edificio suene) </string>
-    <string name="presentation_2_3">Siga al Líder de Seguridad (lista de lideres de seguridad se encuentra en la entrada) y evacue las oficinas y el edificio usando las escaleras, no utilice el ascensor (vea el plano de salidas de emergencia)</string>
-    <string name="presentation_2_4">De una manera calmada diríjase hacia el punto de encuentro del complejo Ekopark, localizado al frente de la torre 2 (vea el plan de evacuación Ekopark) </string>
-    <string name="presentation_2_5">No vuelva a entrar en el edificio o las oficinas hasta que haya recibido una autorización oficial para hacerlo</string>
-    <string name="presentation_2_6">Terremoto o Temblor</string>
-    <string name="presentation_2_7">En el caso de un terremoto o temblor debe mantenerse en calma, controlar el pánico y protegerse durante el movimiento en una zona segura como una viga o columna (vea plano de zonas seguras)</string>
-    <string name="presentation_2_8">Una vez que el terremoto o temblor haya pasado siga al líder de Seguridad y evacue las oficinas y el edificio usando las escaleras, no utilice el ascensor (vea el plano de salidas de emergencia)</string>
-    <string name="presentation_2_9">De una manera calmada diríjase hacia el punto de encuentro del complejo Ekopark, localizado al frente de la torre 2 (vea el plan de evacuación Ekopark)</string>
-    <string name="presentation_2_10">No vuelva a entrar en el edificio o las oficinas hasta que haya recibido una autorización oficial para hacerlo</string>
+    <string name="presentation_2_title">Emergency Response</string>
+    <string name="presentation_2_1">Fire</string>
+    <string name="presentation_2_2">In case of fire, shout FIRE, FIRE, FIRE and actívate the nearest alarm</string>
+    <string name="presentation_2_3">Follow the Safety Brigadier (Brigadiers have vests on their chairs for identification) and evacuate the offices and the building using the stairs, do not use the elevator (see the plan of emergency exits) </string>
+    <string name="presentation_2_4">In a calm way, head towards the Ekopark muster point, located in front of Tower 2 (see the Ekopark evacuation plan) </string>
+    <string name="presentation_2_5">Do not re-enter the building or offices until you have received an official authorization to do it</string>
+    <string name="presentation_2_6">Earthqueake or Tremor</string>
+    <string name="presentation_2_7">In the event of an earthquake or tremor keep calm and seek protection in a safe area such as a beam or column (see plan of safe areas)</string>
+    <string name="presentation_2_8">Once the earthquake or tremor has passed, follow the safety brigadier and evacuate the offices and the building using the stairs, do not use the elevator (see the emergency exits plan)</string>
+    <string name="presentation_2_9">In a calm way, head towards the meeting point of the Ekopark complex, located in front of Tower 2 (see the Ekopark evacuation plan)</string>
+    <string name="presentation_2_10">Do not re-enter the building or offices until you have received authorization to do so</string>
 
     <!-- Strings related to presentation 3 -->
-    <string name="presentation_3_title">Plano de Salidas de Emergencia</string>
+    <string name="presentation_3_title">Emergency Exit Map</string>
 
     <!-- Strings related to presentation 4 -->
-    <string name="presentation_4_title">Plan de Evacuación Ekopark</string>
+    <string name="presentation_4_title">Ekopark Evacuation Map</string>
 
     <!-- Strings related to presentation 5 -->
-    <string name="presentation_5_title">Plano de Zonas seguras para Terremoto, Kit de Primeros auxilios y alarmas</string>
+    <string name="presentation_5_title">Fire detection Map</string>
 
     <!-- Strings related to presentation 6 -->
     <string name="presentation_6_title">Cerro Quebrado</string>
-    <string name="presentation_6_1">Salud y Seguridad</string>
-    <string name="presentation_6_2">Siempre revise su área de trabajo y verifique que no existan cables sueltos</string>
-    <string name="presentation_6_3">No deje maletas y pertenencias en los corredores donde la gente se pueda tropezar</string>
-    <string name="presentation_6_4">Si usted viene de otro país por favor familiarícese con el Ecuador Travel Guide, este le proveerá detalle acerca de su seguridad personal y crimen</string>
-    <string name="presentation_6_5">Reporte de Incidentes</string>
-    <string name="presentation_6_6">Todos los accidentes e incidentes deben ser reportados</string>
-    <string name="presentation_6_7">Todos los cuasi incidentes (near misses) también deben ser reportados</string>
-    <string name="presentation_6_8">Cerro Quebrado se compromete a proporcionar un ambiente de trabajo libre de accidentes</string>
+    <string name="presentation_6_1">Health and Safety</string>
+    <string name="presentation_6_2">Always check your work area and verify that there are not loose cables</string>
+    <string name="presentation_6_3">Do not leave your suitcases and/or belongings in the corridors where people may trip</string>
+    <string name="presentation_6_4">If you are coming from another country please familiarize yourself with the Ecuador Travel Guide, it will inform you about your personal safety and crime</string>
+    <string name="presentation_6_5">Incident reporting</string>
+    <string name="presentation_6_6">All accidents and incidents must be reported</string>
+    <string name="presentation_6_7">All near-misses must be reported</string>
+    <string name="presentation_6_8">Cerro Quebrado is committed to providing a safe working environment</string>
 
     <!-- Strings related to questions -->
-    <string name="question_title">Preguntas</string>
-    <string name="question_redo">Volver al inicio</string>
-    <string name="question_1">1. ¿Puede usar el ascensor durante un incendio?</string>
-    <string name="question_2">2. ¿Los accidentes e incidentes deben ser reportados?</string>
-    <string name="question_msg_ok">Usted ha completado la capacitación exitosamente.</string>
-    <string name="error_questions_wrong">Lo sentimos, sus respuestas son incorrectas.</string>
-    <string name="error_questions_unanswered">Debe responder a todas las preguntas</string>
+    <string name="question_title">Questions</string>
+    <string name="question_redo">Back to top</string>
+    <string name="question_1">1. Can you use the elevator during the fire?</string>
+    <string name="question_2">2. Accidents and incidents must be reported?</string>
+    <string name="question_msg_ok">You have successfully completed the training.</string>
+    <string name="error_questions_wrong">Sorry, your answers are incorrect.</string>
+    <string name="error_questions_unanswered">You must answer all the questions</string>
 
     <!-- Strings related to dashboard -->
-    <string name="title_activity_dashboard">Lista Personas</string>
-    <string name="error_no_data_fetch">No existen datos</string>
-    <string name="course_not_taken">Aún no ha realizado el curso</string>
-    <string name="expired">Expirado</string>
-    <string name="remaining_template">Vence en: %1$s</string>
-    <string name="succeeded">Aprobado</string>
-    <string name="failed">Fallido</string>
-    <string name="export">Exportar</string>
-    <string name="importcsv">Importar</string>
-    <string name="export_succeeded">Exportar realizado exitosamente.\nPuede encontrar el archivo en %1$s</string>
-    <string name="export_failed">Ocurrió un error al exportar los datos. Intente nuevamente.</string>
+    <string name="title_activity_dashboard">People List</string>
+    <string name="error_no_data_fetch">There are no data</string>
+    <string name="course_not_taken">You have not done the course yet.</string>
+    <string name="expired">Expired</string>
+    <string name="remaining_template">Expire in: %1$s</string>
+    <string name="succeeded">Approved</string>
+    <string name="failed">Failed</string>
+    <string name="export">Expor</string>
+    <string name="importcsv">Import</string>
+    <string name="export_succeeded">Export success.\nYou can find the file in %1$s</string>
+    <string name="export_failed">An error occurred while exporting the data. Try again.</string>
 
     <!-- Strings related to plurals -->
     <plurals name="years">
-        <item quantity="one">año</item>
-        <item quantity="other">años</item>
+        <item quantity="one">year</item>
+        <item quantity="other">years</item>
     </plurals>
     <plurals name="months">
-        <item quantity="one">mes</item>
-        <item quantity="other">meses</item>
+        <item quantity="one">month</item>
+        <item quantity="other">months</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">día</item>
-        <item quantity="other">días</item>
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
     </plurals>
 
     <!-- Strings related to visits-->
-    <string name="visitors">Visitantes</string>
+    <string name="visitors">Visitors</string>
     <string name="template_name">%1$s %2$s</string>
-    <string name="register_exit">Se ha registrado la salida de manera exitosa.</string>
-    <string name="error_register_exit">Ya ha registrado su salida.</string>
-    <string name="register_entry">Se ha registrado su entrada de manera exitosa a las %1$s</string>
-    <string name="message_register_exit">¿Está seguro que desea registrar su salida?</string>
-    <string name="date_from">Desde</string>
-    <string name="date_to">Hasta</string>
-    <string name="search">Buscar</string>
-    <string name="verify_filters">Escoja el rango de fechas</string>
+    <string name="register_exit">The exit has been registered successfully.</string>
+    <string name="error_register_exit">You have already registered your departure.</string>
+    <string name="register_entry">Your entry has been successfully registered at %1$s</string>
+    <string name="message_register_exit">Are you sure you want to register your exit?</string>
+    <string name="date_from">From</string>
+    <string name="date_to">To</string>
+    <string name="search">Search</string>
+    <string name="verify_filters">Choose the range of dates</string>
 
     <!-- Options after Login -->
-    <string name="courses">Cursos</string>
-    <string name="label_exit">Salida Visita</string>
+    <string name="courses">Courses</string>
+    <string name="label_exit">Exit Visit</string>
+    <string name="spanish">Spanish</string>
+    <string name="english">English</string>
 
 </resources>

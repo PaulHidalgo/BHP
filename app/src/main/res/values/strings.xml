@@ -136,5 +136,7 @@
     <!-- Options after Login -->
     <string name="courses">Cursos</string>
     <string name="label_exit">Salida Visita</string>
+    <string name="spanish">Español</string>
+    <string name="english">Inglés</string>
 
 </resources>

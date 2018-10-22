@@ -73,18 +73,23 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp"
         android:gravity="center">
 
         <Button
             android:id="@+id/es"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Espaniol" />
+            android:text="@string/spanish"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/en"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingles" />
+            android:text="@string/english"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 </RelativeLayout>
